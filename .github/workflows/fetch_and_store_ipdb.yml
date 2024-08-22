@@ -30,3 +30,16 @@ jobs:
     - name: Run Python script
       run: |
         python fetch_and_store_ipdb.py
+
+    - name: List files in data directory
+      run: |
+        ls -l data/
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "1139523599@qq.com"
+        git config --local user.name "eliangwww"
+        git add data/
+        git commit -m "Add new IPDB data" || echo "No changes to commit"
+        git pull origin main --rebase || git rebase --abort
+        git push origin main
