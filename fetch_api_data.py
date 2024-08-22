@@ -1,40 +1,30 @@
 import requests
 
-# API URL
-url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
+# Step 1: 读取现有的 api_data.txt 文件内容
+file_path = 'api_data.txt'
 
-# Telegram Bot 配置
-telegram_token = '7105513269:AAGxdsjP9P6cp3wPdZeeLqmSA7wiBxn5ll8'  # 替换为你的 Bot API 令牌
-chat_id = '5072982601'  # 替换为你的 Chat ID
+try:
+    with open(file_path, 'r') as file:
+        existing_content = file.read()
+except FileNotFoundError:
+    existing_content = ""  # 如果文件不存在，设置为空字符串
 
-# 需要添加的后缀
-suffix = " #后缀"
-
-# 发送请求获取API内容
-response = requests.get(url)
-data = response.text
-
-# 为每一行添加后缀
-modified_data = ""
-for line in data.splitlines():
-    modified_data += line + suffix + "\n"
-
-# 将修改后的数据保存到文件
-with open("api_data.txt", "w") as file:
-    file.write(modified_data)
-
-# 准备要发送到Telegram的消息
-message = "API数据已更新并推送到GitHub仓库。"
-
-# 发送消息到Telegram
-send_message_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
-params = {
-    'chat_id': chat_id,
-    'text': message
-}
-response = requests.post(send_message_url, params=params)
+# Step 2: 从 API 获取数据
+api_url = 'https://ipdb.api.030101.xyz/?type=bestcf&country=true'
+response = requests.get(api_url)
 
 if response.status_code == 200:
-    print("消息发送成功")
+    new_data = response.text
 else:
-    print(f"消息发送失败，错误码：{response.status_code}")
+    print(f"Failed to fetch data from API. Status code: {response.status_code}")
+    new_data = ""
+
+# Step 3: 更新文件内容（可以选择追加或覆盖）
+# 这里是选择追加数据
+updated_content = existing_content + "\n" + new_data
+
+# Step 4: 将更新后的内容写回到 api_data.txt 文件中
+with open(file_path, 'w') as file:
+    file.write(updated_content)
+
+print("File updated successfully.")
