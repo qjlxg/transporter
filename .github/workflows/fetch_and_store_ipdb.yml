@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # 获取完整的Git历史
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,11 +30,3 @@ jobs:
     - name: Run Python script
       run: |
         python fetch_and_store_ipdb.py
-
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "1139523599@qq.com"
-        git config --local user.name "eliangwww"
-        git add data/
-        git commit -m "Add new IPDB data"
-        git push origin main
