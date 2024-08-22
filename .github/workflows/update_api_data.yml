@@ -1,40 +1,55 @@
-name: Update API Data
+name: Fetch and Store IPDB Data
 
+# 设置定时任务，每天凌晨1点自动运行
 on:
   schedule:
-    - cron: '0 * * * *'  # 每小时运行一次
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 1 * * *'
+  workflow_dispatch: # 手动触发工作流
 
 jobs:
-  update-data:
+  fetch-and-store:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install requests
+        pip install requests PyGithub
 
-    - name: Run API data fetch script
-      run: python fetch_api_data.py
-
-    - name: Configure Git
-      run: |
-        git config --global user.name "eliangwww"
-        git config --global user.email "1139523599@qq.com"
-
-    - name: Commit and push changes
+    - name: Fetch IPDB data and upload to GitHub
       env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git add api_data.txt
-        git commit -m "Update API data"
-        git push origin HEAD:${{ github.ref }}
+        import requests
+        from github import Github
+        from datetime import datetime
+
+        # Step 1: 获取API数据
+        api_url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            data = response.text
+        else:
+            raise Exception(f"API 请求失败，状态码: {response.status_code}")
+
+        # Step 2: 将数据保存为文件
+        filename = f"ipdb_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+
+        # Step 3: 上传文件到GitHub
+        commit_message = f"Add IP data file {filename}"
+
+        # 使用 GITHUB_TOKEN 自动化访问和提交代码
+        g = Github("${{ secrets.GITHUB_TOKEN }}")
+        repo = g.get_repo("${{ github.repository }}")
+
+        # 上传文件
+        repo.create_file(f"data/{filename}", commit_message, data)
+
+        print(f"文件 {filename} 已成功上传到 GitHub 仓库 {repo.name}")
