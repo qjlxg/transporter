@@ -6,7 +6,7 @@ permissions:
 on:
   schedule:
     - cron: '0 */6 * * *'  # 每六小时运行一次任务
-  workflow_dispatch: # 手动触发工作流
+  workflow_dispatch: # 允许手动触发工作流
 
 jobs:
   fetch-and-store:
@@ -31,14 +31,14 @@ jobs:
       run: |
         python fetch_and_store_ipdb.py
 
-    - name: Commit and push changes to gh-pages
+    - name: Commit and push changes to main
       run: |
-        git config --local user.email "1139523599@qq.com"
-        git config --local user.name "eliangwww"
-        git checkout -B gh-pages
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add data/ipdb_data.txt
-        git commit -m "Update IPDB data file"
-        git push origin gh-pages --force
+        git commit -m "Update IPDB data file" || echo "No changes to commit"
+        git pull origin main --rebase || git rebase --abort
+        git push origin main
 
     - name: Clean up working directory
       run: |
