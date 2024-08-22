@@ -1,9 +1,8 @@
 name: Fetch and Store IPDB Data
 
-# 设置定时任务，每天凌晨1点自动运行
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 1 * * *'  # 每天凌晨1点运行任务
   workflow_dispatch: # 手动触发工作流
 
 jobs:
@@ -21,35 +20,16 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install requests PyGithub
+        pip install requests
 
-    - name: Fetch IPDB data and upload to GitHub
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run Python script
       run: |
-        import requests
-        from github import Github
-        from datetime import datetime
+        python fetch_and_store_ipdb.py
 
-        # Step 1: 获取API数据
-        api_url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
-        response = requests.get(api_url)
-        if response.status_code == 200:
-            data = response.text
-        else:
-            raise Exception(f"API 请求失败，状态码: {response.status_code}")
-
-        # Step 2: 将数据保存为文件
-        filename = f"ipdb_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-
-        # Step 3: 上传文件到GitHub
-        commit_message = f"Add IP data file {filename}"
-
-        # 使用 GITHUB_TOKEN 自动化访问和提交代码
-        g = Github("${{ secrets.GITHUB_TOKEN }}")
-        repo = g.get_repo("${{ github.repository }}")
-
-        # 上传文件
-        repo.create_file(f"data/{filename}", commit_message, data)
-
-        print(f"文件 {filename} 已成功上传到 GitHub 仓库 {repo.name}")
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "1139523599@qq.com"
+        git config --local user.name "eliangwww"
+        git add data/
+        git commit -m "Add new IPDB data"
+        git push origin main
