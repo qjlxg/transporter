@@ -15,7 +15,7 @@ def send_telegram_message(message):
     return response
 
 # Step 1: 获取API数据
-api_url = "https://ipdb.api.030101.xyz/?type=bestcf"
+api_url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
 response = requests.get(api_url)
 if response.status_code == 200:
     data = response.text
