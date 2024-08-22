@@ -1,8 +1,6 @@
 name: Update API Data
 
 on:
-  schedule:
-    - cron: '0 * * * *'  # 每小时运行一次
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -10,27 +8,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+    - name: Run API data fetch script
+      run: python3 fetch_api_data.py
 
-    - name: Install Dependencies
-      run: pip install requests
-
-    - name: Fetch and Update API Data
-      run: python fetch_api_data.py
-
-    - name: Commit and Push changes
+    - name: Configure Git
       run: |
-        git config --global user.name 'Your Name'
-        git config --global user.email 'your-email@example.com'
-        git add api_data.txt
-        git commit -m "Update API data"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
 
+    - name: Commit and push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用自动生成的 GitHub Token
+      run: |
+        git add .
+        git commit -m "Update API data"
+        git push origin HEAD:${{ github.ref }}
