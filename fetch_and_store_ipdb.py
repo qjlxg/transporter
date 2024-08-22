@@ -14,6 +14,17 @@ def send_telegram_message(message):
     response = requests.post(url, data=payload)
     return response
 
+def send_telegram_file(file_path):
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendDocument"
+    files = {
+        'document': open(file_path, 'rb')
+    }
+    data = {
+        'chat_id': CHAT_ID
+    }
+    response = requests.post(url, files=files, data=data)
+    return response
+
 # Step 1: 获取API数据
 api_url = "https://ipdb.api.030101.xyz/?type=bestcf"
 response = requests.get(api_url)
@@ -24,7 +35,11 @@ else:
     send_telegram_message(error_message)
     raise Exception(error_message)
 
-# Step 2: 将数据保存为固定名称的文件
+# Step 2: 添加后缀
+suffix = ":443#测试"
+processed_data = "\n".join([line + suffix for line in data.splitlines()])
+
+# Step 3: 将数据保存为固定名称的文件
 filename = "ipdb_data.txt"
 file_path = os.path.join("data", filename)
 
@@ -37,15 +52,16 @@ if os.path.exists(file_path):
 
 # 创建新文件
 with open(file_path, "w") as file:
-    file.write(data)
+    file.write(processed_data)
 
 success_message = f"数据已保存到 {file_path}"
 send_telegram_message(success_message)
+send_telegram_file(file_path)
 
 print(success_message)
 
-# Step 3: 将文件提交到GitHub仓库
+# Step 4: 将文件提交到GitHub仓库
 os.system("git add data/")
-os.system('git commit -m "Add new IPDB data" || echo "No changes to commit"')
+os.system('git commit -m "Add new IPDB data with suffix" || echo "No changes to commit"')
 os.system("git pull origin main --rebase || git rebase --abort")
 os.system("git push origin main")
