@@ -1,0 +1,45 @@
+name: Fetch and Store IPDB Data
+
+permissions:
+  contents: write  # 允许写入权限
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # 每六小时运行一次任务
+  workflow_dispatch: # 手动触发工作流
+
+jobs:
+  fetch-and-store:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # 获取完整的Git历史
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+
+    - name: Run Python script
+      run: |
+        python fetch_and_store_ipdb.py
+
+    - name: Commit and push changes to gh-pages
+      run: |
+        git config --local user.email "1139523599@qq.com"
+        git config --local user.name "eliangwww"
+        git checkout -B gh-pages
+        git add data/ipdb_data.txt
+        git commit -m "Update IPDB data file"
+        git push origin gh-pages --force
+
+    - name: Clean up working directory
+      run: |
+        git checkout main
