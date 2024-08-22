@@ -31,8 +31,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.email "1139523599@qq.com"
+        git config --local user.name "eliangwww"
         git add data/
         git commit -m "Add new IPDB data"
         git push origin main
