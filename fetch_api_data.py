@@ -4,8 +4,8 @@ import requests
 url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
 
 # Telegram Bot 配置
-telegram_token = 'YOUR_TELEGRAM_BOT_TOKEN'  # 替换为你的 Bot API 令牌
-chat_id = 'YOUR_CHAT_ID'  # 替换为你的 Chat ID
+telegram_token = '7105513269:AAGxdsjP9P6cp3wPdZeeLqmSA7wiBxn5ll8'  # 替换为你的 Bot API 令牌
+chat_id = '5072982601'  # 替换为你的 Chat ID
 
 # 需要添加的后缀
 suffix = " #后缀"
