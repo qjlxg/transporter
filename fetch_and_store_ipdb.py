@@ -2,8 +2,8 @@ import requests
 import os
 
 # Telegram bot configuration
-TELEGRAM_BOT_TOKEN = 'your_telegram_bot_token'  # 替换为你的 Telegram Bot Token
-CHAT_ID = 'your_chat_id'  # 替换为你的 Chat ID
+TELEGRAM_BOT_TOKEN = '7105513269:AAGxdsjP9P6cp3wPdZeeLqmSA7wiBxn5ll8'  # 替换为你的 Telegram Bot Token
+CHAT_ID = '5072982601'  # 替换为你的 Chat ID
 
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
@@ -26,7 +26,7 @@ def send_telegram_file(file_path):
     return response
 
 # Step 1: 获取API数据
-api_url = "https://ipdb.api.030101.xyz/?type=bestcf&country=true"
+api_url = "https://ipdb.api.030101.xyz/?type=bestcf"
 response = requests.get(api_url)
 if response.status_code == 200:
     data = response.text
@@ -36,17 +36,17 @@ else:
     raise Exception(error_message)
 
 # Step 2: 添加后缀
-suffix = "_suffix1"
+suffix = ":443#Free"
 processed_data = "\n".join([line + suffix for line in data.splitlines()])
 
-# Step 3: 将数据保存为固定名称的文件（覆盖模式）
+# Step 3: 将数据保存为固定名称的文件
 filename = "ipdb_data.txt"
 file_path = os.path.join("data", filename)
 
 # 确保数据目录存在
 os.makedirs("data", exist_ok=True)
 
-# 直接写入文件（会覆盖现有文件）
+# 覆写文件（直接写入新内容）
 with open(file_path, "w") as file:
     file.write(processed_data)
 
@@ -55,3 +55,9 @@ send_telegram_message(success_message)
 send_telegram_file(file_path)
 
 print(success_message)
+
+# Step 4: 将文件提交到GitHub仓库
+os.system("git add data/")
+os.system('git commit -m "Add new IPDB data with suffix" || echo "No changes to commit"')
+os.system("git pull origin main --rebase || git rebase --abort")
+os.system("git push origin main")
