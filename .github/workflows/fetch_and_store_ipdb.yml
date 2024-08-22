@@ -35,5 +35,4 @@ jobs:
         git config --local user.name "GitHub Action"
         git add data/
         git commit -m "Add new IPDB data"
-        git pull --rebase origin main  # 拉取远程更改并使用rebase避免冲突
         git push origin main
