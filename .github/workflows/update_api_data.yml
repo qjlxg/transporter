@@ -1,7 +1,3 @@
-$ git credential-osxkeychain erase
-host=github.com
-protocol=https
-> [Press Return]
 name: Update API Data
 
 on:
