@@ -1,5 +1,8 @@
 name: Fetch and Store IPDB Data
 
+permissions:
+  contents: write  # 允许写入权限
+
 on:
   schedule:
     - cron: '0 1 * * *'  # 每天凌晨1点运行任务
