@@ -50,7 +50,7 @@ os.makedirs("data", exist_ok=True)
 with open(file_path, "w") as file:
     file.write(processed_data)
 
-success_message = f"数据已保存到 {file_path}"
+success_message = f"数据已保存"
 send_telegram_message(success_message)
 send_telegram_file(file_path)
 
