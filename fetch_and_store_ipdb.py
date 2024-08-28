@@ -3,7 +3,7 @@ import os
 
 # Telegram bot configuration
 TELEGRAM_BOT_TOKEN = '7105513269:AAGxdsjP9P6cp3wPdZeeLqmSA7wiBxn5ll8'  # 替换为你的 Telegram Bot Token
-CHAT_ID = '5072982601'  # 替换为你的 Chat ID
+CHAT_ID = '-1002242550802'  # 替换为你的 Chat ID
 
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
