@@ -14,17 +14,6 @@ def send_telegram_message(message):
     response = requests.post(url, data=payload)
     return response
 
-def send_telegram_file(file_path):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendDocument"
-    files = {
-        'document': open(file_path, 'rb')
-    }
-    data = {
-        'chat_id': CHAT_ID
-    }
-    response = requests.post(url, files=files, data=data)
-    return response
-
 # Step 1: 获取API数据
 api_url = "https://ipdb.api.030101.xyz/?type=bestcf"
 response = requests.get(api_url)
