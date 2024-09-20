@@ -58,7 +58,7 @@ else:
     raise Exception(error_message)
 
 # Step 2: 添加后缀
-suffix = ":2053#Free"
+suffix = "#Gcore"
 processed_data = "\n".join([ip + suffix for ip in ip_addresses])
 
 # Step 3: 将数据保存为固定名称的文件
