@@ -48,7 +48,7 @@ def fetch_ips_from_api(api_url):
 # 设定 API 列表
 api_urls = [
     "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3",
-    "https://raw.githubusercontent.com/BruceWind/GcoreCDNIPSelector/refs/heads/main/result.txt",  # 另一个 API 示例
+      # 另一个 API 示例
     # 可以添加更多 API
 ]
 
