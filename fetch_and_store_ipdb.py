@@ -28,13 +28,24 @@ def send_telegram_file(file_path):
 # Step 1: 获取新的 API 数据
 api_url = "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3"
 response = requests.get(api_url)
+
+# 调试：输出完整响应内容以查看结构
+print(f"API Response: {response.text}")
+
 if response.status_code == 200:
-    # 从 JSON 响应中提取 "ip" 字段
-    data = response.json()
-    ip_address = data.get('ip')
-    
-    if not ip_address:
-        error_message = "未能提取到 IP 地址"
+    try:
+        # 从 JSON 响应中提取 "ip" 字段
+        data = response.json()
+        print(f"API JSON Data: {data}")  # 输出 JSON 数据，帮助调试
+        ip_address = data.get('ip')  # 尝试获取 'ip' 字段
+
+        if not ip_address:
+            error_message = "未能提取到 IP 地址"
+            send_telegram_message(error_message)
+            raise Exception(error_message)
+    except ValueError:
+        # 如果无法解析 JSON，捕获异常并记录错误信息
+        error_message = "API 响应不是有效的 JSON 格式"
         send_telegram_message(error_message)
         raise Exception(error_message)
 else:
