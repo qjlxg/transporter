@@ -11,8 +11,7 @@ def send_telegram_message(message):
         'chat_id': CHAT_ID,
         'text': message
     }
-    response = requests.post(url, data=payload)
-    return response
+    requests.post(url, data=payload)
 
 def send_telegram_file(file_path):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendDocument"
@@ -22,44 +21,49 @@ def send_telegram_file(file_path):
     data = {
         'chat_id': CHAT_ID
     }
-    response = requests.post(url, files=files, data=data)
-    return response
+    requests.post(url, files=files, data=data)
 
-# Step 1: 获取新的 API 数据
-api_url = "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3"
-response = requests.get(api_url)
+def fetch_ips_from_api(api_url):
+    response = requests.get(api_url)
+    ip_addresses = []
 
-if response.status_code == 200:
-    try:
-        # 从 JSON 响应中提取 IP 地址
-        data = response.json()
-        info = data.get('info', {})
-        
-        # 提取 CM、CU、CT 的 IP 地址
-        ip_addresses = []
-        for group in ['CM', 'CU', 'CT']:
-            for entry in info.get(group, []):
-                ip = entry.get('ip')
-                if ip:
-                    ip_addresses.append(ip)
+    if response.status_code == 200:
+        try:
+            data = response.json()
+            info = data.get('info', {})
 
-        if not ip_addresses:
-            error_message = "未能提取到 IP 地址"
-            send_telegram_message(error_message)
-            raise Exception(error_message)
-    except ValueError:
-        # 如果无法解析 JSON，捕获异常并记录错误信息
-        error_message = "API 响应不是有效的 JSON 格式"
-        send_telegram_message(error_message)
-        raise Exception(error_message)
-else:
-    error_message = f"API 请求失败，状态码: {response.status_code}"
-    send_telegram_message(error_message)
-    raise Exception(error_message)
+            # 提取 CM、CU、CT 的 IP 地址
+            for group in ['CM', 'CU', 'CT']:
+                for entry in info.get(group, []):
+                    ip = entry.get('ip')
+                    if ip:
+                        ip_addresses.append(ip)
+        except ValueError:
+            send_telegram_message(f"API 响应不是有效的 JSON 格式: {api_url}")
+    else:
+        send_telegram_message(f"API 请求失败，状态码: {response.status_code}，地址: {api_url}")
+
+    return ip_addresses
+
+# 设定 API 列表
+api_urls = [
+    "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3",
+    "https://raw.githubusercontent.com/BruceWind/GcoreCDNIPSelector/refs/heads/main/result.txt",  # 另一个 API 示例
+    # 可以添加更多 API
+]
+
+# 从所有 API 提取 IP
+all_ips = []
+for url in api_urls:
+    all_ips.extend(fetch_ips_from_api(url))
+
+if not all_ips:
+    send_telegram_message("未能提取到任何 IP 地址")
+    raise Exception("未能提取到任何 IP 地址")
 
 # Step 2: 添加后缀
-suffix = "#Gcore"
-processed_data = "\n".join([ip + suffix for ip in ip_addresses])
+suffix = ":2053#Free"
+processed_data = "\n".join([ip + suffix for ip in all_ips])
 
 # Step 3: 将数据保存为固定名称的文件
 filename = "ipdb_data.txt"
