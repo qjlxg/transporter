@@ -62,7 +62,7 @@ if not all_ips:
     raise Exception("未能提取到任何 IP 地址")
 
 # Step 2: 添加后缀
-suffix = ":2053#Free"
+suffix = "#Gcore"
 processed_data = "\n".join([ip + suffix for ip in all_ips])
 
 # Step 3: 将数据保存为固定名称的文件
