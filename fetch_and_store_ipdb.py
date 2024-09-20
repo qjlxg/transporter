@@ -29,17 +29,21 @@ def send_telegram_file(file_path):
 api_url = "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3"
 response = requests.get(api_url)
 
-# 调试：输出完整响应内容以查看结构
-print(f"API Response: {response.text}")
-
 if response.status_code == 200:
     try:
-        # 从 JSON 响应中提取 "ip" 字段
+        # 从 JSON 响应中提取 IP 地址
         data = response.json()
-        print(f"API JSON Data: {data}")  # 输出 JSON 数据，帮助调试
-        ip_address = data.get('ip')  # 尝试获取 'ip' 字段
+        info = data.get('info', {})
+        
+        # 提取 CM、CU、CT 的 IP 地址
+        ip_addresses = []
+        for group in ['CM', 'CU', 'CT']:
+            for entry in info.get(group, []):
+                ip = entry.get('ip')
+                if ip:
+                    ip_addresses.append(ip)
 
-        if not ip_address:
+        if not ip_addresses:
             error_message = "未能提取到 IP 地址"
             send_telegram_message(error_message)
             raise Exception(error_message)
@@ -55,7 +59,7 @@ else:
 
 # Step 2: 添加后缀
 suffix = ":2053#Free"
-processed_data = ip_address + suffix
+processed_data = "\n".join([ip + suffix for ip in ip_addresses])
 
 # Step 3: 将数据保存为固定名称的文件
 filename = "ipdb_data.txt"
