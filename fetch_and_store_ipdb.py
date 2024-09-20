@@ -25,11 +25,18 @@ def send_telegram_file(file_path):
     response = requests.post(url, files=files, data=data)
     return response
 
-# Step 1: 获取API数据
-api_url = "https://ipdb.api.030101.xyz/?type=bestcf"
+# Step 1: 获取新的 API 数据
+api_url = "https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3"
 response = requests.get(api_url)
 if response.status_code == 200:
-    data = response.text
+    # 从 JSON 响应中提取 "ip" 字段
+    data = response.json()
+    ip_address = data.get('ip')
+    
+    if not ip_address:
+        error_message = "未能提取到 IP 地址"
+        send_telegram_message(error_message)
+        raise Exception(error_message)
 else:
     error_message = f"API 请求失败，状态码: {response.status_code}"
     send_telegram_message(error_message)
@@ -37,7 +44,7 @@ else:
 
 # Step 2: 添加后缀
 suffix = ":2053#Free"
-processed_data = "\n".join([line + suffix for line in data.splitlines()])
+processed_data = ip_address + suffix
 
 # Step 3: 将数据保存为固定名称的文件
 filename = "ipdb_data.txt"
@@ -50,7 +57,7 @@ os.makedirs("data", exist_ok=True)
 with open(file_path, "w") as file:
     file.write(processed_data)
 
-success_message = f"数据已保存"
+success_message = "数据已保存"
 send_telegram_message(success_message)
 send_telegram_file(file_path)
 
