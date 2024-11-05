@@ -23,7 +23,7 @@ jobs:
           pip install requests pyaes
 
       - name: Run script
-        run: ss.py  # 替换为实际的脚本文件名
+        run: python ss.py  # 替换为实际的脚本文件名
 
       - name: Upload results
         if: success()
