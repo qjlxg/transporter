@@ -1,0 +1,33 @@
+name: ss
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # 每天执行一次（UTC时间0:00）
+
+jobs:
+  fetch-nodes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # 使用Python3的最新版本
+
+      - name: Install dependencies
+        run: |
+          pip install requests pyaes
+
+      - name: Run script
+        run: ss.py  # 替换为实际的脚本文件名
+
+      - name: Upload results
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: smallwings_nodes
+          path: smallwings.txt  # 上传生成的smallwings.txt文件
