@@ -30,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: smallwings_nodes
-          path: smallwings.txt  # 上传生成的smallwings.txt文件
+          path: data/smallwings.txt  # 上传生成的smallwings.txt文件
