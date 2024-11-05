@@ -94,4 +94,4 @@ print('节点数量:', len(ss_list))
 if ss_list:
     with open('data/smallwings.txt', 'w') as f:
         f.write('\n'.join(ss_list))
-        print('保存文件: smallwings.txt')
+        print('保存文件: ss.txt')
