@@ -69,6 +69,22 @@ if register_response.status_code == 200:
             print("\n注册并登录成功，订阅地址:")
             print(subscribe_url)
             print("Telegram 联系: " + tg)
+
+            # 访问订阅链接并获取返回数据
+            try:
+                subscribe_response = session.get(subscribe_url, headers=headers, verify=False)
+
+                if subscribe_response.status_code == 200:
+                    # 将返回的数据保存到文件
+                    with open('data/cm3.txt', 'w') as f:
+                        f.write("订阅链接返回的内容:\n")
+                        f.write(subscribe_response.text)  # 保存返回的文本内容
+                        f.write(f"\nTelegram 联系: {tg}\n")
+                    print("订阅链接的返回内容已保存到 data/cm3.txt")
+                else:
+                    print(f"访问订阅链接失败，状态码: {subscribe_response.status_code}")
+            except Exception as e:
+                print(f"访问订阅链接时发生错误: {e}")
         else:
             print("登录成功，但未获取到 token！")
     else:
