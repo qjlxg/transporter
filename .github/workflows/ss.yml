@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # 允许手动触发工作流
   schedule:
     # 设置定时任务，每天00:00 UTC时间执行
-        - cron: '0 0 * * *'
+    - cron: "0 */6 * * *"
 jobs:
   fetch-and-store:
     runs-on: ubuntu-latest
