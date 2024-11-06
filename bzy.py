@@ -77,9 +77,8 @@ if register_response.status_code == 200:
                 if subscribe_response.status_code == 200:
                     # 将返回的数据保存到文件
                     with open('data/bzy.txt', 'w') as f:
-                        f.write("订阅链接返回的内容:\n")
+                    
                         f.write(subscribe_response.text)  # 保存返回的文本内容
-                        f.write(f"\nTelegram 联系: {tg}\n")
                     print("订阅链接的返回内容已保存到 data/bzy.txt")
                 else:
                     print(f"访问订阅链接失败，状态码: {subscribe_response.status_code}")
