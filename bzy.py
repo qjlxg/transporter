@@ -8,7 +8,7 @@ warnings.filterwarnings("ignore")
 # 基本信息设置
 host = "www.otcopusapp.cc"  # 请替换为实际的主机地址
 path = "lx3af288h5i8pz380"  # 请替换为实际路径
-tg = "https://t.me/SGR888VIP"  # Telegram 链接，如有需要请更新
+tg = "https://t.me/eliangwww"  # Telegram 链接，如有需要请更新
 
 # 生成随机邮箱和密码
 def generate_random_alpha_string(length=6):
@@ -76,11 +76,11 @@ if register_response.status_code == 200:
 
                 if subscribe_response.status_code == 200:
                     # 将返回的数据保存到文件
-                    with open('data/cm3.txt', 'w') as f:
+                    with open('data/bzy.txt', 'w') as f:
                         f.write("订阅链接返回的内容:\n")
                         f.write(subscribe_response.text)  # 保存返回的文本内容
                         f.write(f"\nTelegram 联系: {tg}\n")
-                    print("订阅链接的返回内容已保存到 data/cm3.txt")
+                    print("订阅链接的返回内容已保存到 data/bzy.txt")
                 else:
                     print(f"访问订阅链接失败，状态码: {subscribe_response.status_code}")
             except Exception as e:
