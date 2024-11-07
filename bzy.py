@@ -25,8 +25,8 @@ register_url = f"https://{host}/{path}/api/v1/passport/auth/register"
 register_data = {
     "email": email,
     "password": password,
-    "invite_code": "pXdFSnIH",  # 确保此处填写的是正确的邀请码
-    "email_code": "pXdFSnIH"    # 可能需要从注册流程中获取验证码
+    "invite_code": "GmUCVaNQ",  # 确保此处填写的是正确的邀请码
+    "email_code": "GmUCVaNQ"    # 可能需要从注册流程中获取验证码
 }
 
 # 请求头
