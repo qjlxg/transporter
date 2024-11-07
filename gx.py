@@ -22,9 +22,9 @@ def fetch_api_links_content(url):
                 try:
                     api_response = requests.get(link)
                     api_response.encoding = 'utf-8'
-                    file.write(f"URL: {link}\n")
+                
                     file.write(api_response.text)
-                    file.write("\n\n" + "="*50 + "\n\n")  # 分隔不同链接内容
+                
                 except requests.RequestException as e:
                     file.write(f"Failed to retrieve {link}: {e}\n\n")
     else:
