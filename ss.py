@@ -31,11 +31,11 @@ def decrypt(b64str):
 def fetch_ss():
     nonce = generate_nonce()
     ts = str(int(time.time()))
-    message = f"h/hfX}}$ZDHcWH5rLpFdn=:x5D%Nh-gPOST/v3/choose_server/?nonce={nonce}&sid=h/hfX}}$ZDHcWH5rLpFdn=:x5D%Nh-g&ts={ts}&version=40"
+    message = f"h/hfX}}$ZDHcWH5rLpFdn=:x5D%Nh-gPOST/v3/choose_server/?nonce={nonce}&sid=h/hfX}}$ZDHcWH5rLpFdn=:x5D%Nh-g&ts={ts}&version=63"
     key = "G]n(/E5WdRz]:=:aq$46BA-$qjj3gZ"
     sign = generate_hmac_sha1_signature(key, message)
     data = {
-        "version": 40,
+        "version": 63,
         "nonce": nonce,
         "ts": ts,
         "sid": "h/hfX}$ZDHcWH5rLpFdn=:x5D%Nh-g",
