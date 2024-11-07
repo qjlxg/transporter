@@ -35,7 +35,7 @@ jobs:
       run: |
         git config --local user.email "1139523599@qq.com"
         git config --local user.name "eliangwww"
-        git add data/yx.txt
+        git add data/gx.txt
         git commit -m "Update API links content" || echo "No changes to commit"
         git pull origin main --rebase || git rebase --abort
         git push origin main
