@@ -57,7 +57,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
                     filtered_content = '\n'.join(filtered_lines)
 
                     # 打印过滤后的内容（用于调试）
-                    print("过滤后的内容:", filtered_content[:100])  # 打印前100字符
+                    print("过滤后的内容:", filtered_content)  # 打印前100字符
 
                     # Base64 重新编码
                     encoded_content = base64.b64encode(filtered_content.encode('utf-8')).decode('utf-8')
