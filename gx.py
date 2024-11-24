@@ -15,7 +15,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
         soup = BeautifulSoup(response.text, 'html.parser')
         
         # 筛选并保留包含 'api' 的链接
-        api_links = [a.get('href') for a in soup.find_all('a', href=True) if 'api' in a.get('href')]
+        api_links = [a.get('href') for a in soup.find_all('a', href=True) if 'token' or 'api' in a.get('href')]
         
         # 获取每个 API 链接的内容并保存
         with open("data/gx.txt", "w", encoding="utf-8") as file:
