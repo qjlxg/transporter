@@ -1,0 +1,9 @@
+Error processing https://6877467e.v3b.pages.dev/#/register?code=ptbbz4XF: string argument should contain only ASCII characters
+
+Error processing https://6877467e.v3b.pages.dev/#/register?code=ptbbz4XF: string argument should contain only ASCII characters
+
+Error processing https://d2nc7bsa.ykkk.best/#/register?code=YKPtQHVC: 'utf-8' codec can't decode byte 0xe0 in position 1: invalid continuation byte
+
+Error processing https://d2nc7bsa.ykkk.best/#/register?code=YKPtQHVC: 'utf-8' codec can't decode byte 0xe0 in position 1: invalid continuation byte
+
+
