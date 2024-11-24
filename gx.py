@@ -13,7 +13,7 @@ def fetch_subscription_links(url, keywords_to_remove, keywords_to_filter_lines):
     if response.status_code == 200:
         # 解析 HTML 内容
         soup = BeautifulSoup(response.text, 'html.parser')
-        
+print(soup.prettify())  # 输出完整的 HTML，确认内容是否加载
         # 筛选包含 "长按复制订阅链接" 的内容
         target_texts = soup.find_all(string=lambda text: "长按复制订阅链接" in text)
         
