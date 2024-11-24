@@ -33,7 +33,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
                     api_response.encoding = 'utf-8'
                     
                     # 打印返回内容的前100字符（用于调试）
-                    print("API 返回内容（前100字符）:", api_response.text[:100])  
+                    print("API 返回内容（前100字符）:", api_response.text)  
 
                     # Base64 解码
                     try:
@@ -43,7 +43,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
                         continue  # 如果解码失败，跳过此链接
 
                     # 打印解码后的内容（用于调试）
-                    print("解码后的内容:", decoded_content[:100])  # 打印前100字符
+                    print("解码后的内容:", decoded_content)  # 打印前100字符
 
                     # 删除指定的关键词
                     for keyword in keywords_to_remove:
