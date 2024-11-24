@@ -57,7 +57,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
 keywords_to_remove = ["关键词1", "关键词2"]
 
 # 指定要过滤整行的关键词
-keywords_to_filter_lines = ["关注", "频道", "冠希"]
+keywords_to_filter_lines = ["关注", "频道", ""]
 
 # 执行函数
 fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines)
