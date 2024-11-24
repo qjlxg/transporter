@@ -73,7 +73,7 @@ def fetch_api_links_content(url, keywords_to_remove, keywords_to_filter_lines):
         print(f"请求失败，状态码：{response.status_code}")
 
 # 指定要删除的关键词
-keywords_to_remove = ["关键词1", "关键词2"]
+keywords_to_remove = ["%40MFJD666", "关键词2"]
 
 # 指定要过滤的整行关键词
 keywords_to_filter_lines = ["%E5%86%A0%E5%B8%8C", "%E9%A2%91%E9%81%93","%E5%85%B3%E6%B3%A8"]
