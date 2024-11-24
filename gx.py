@@ -64,6 +64,7 @@ keywords_to_remove = ["关键词1", "关键词2"]
 
 # 指定要过滤整行的关键词
 keywords_to_filter_lines = ["关注", "频道", ""]
-
+print(soup.prettify())  
+# 输出完整的 HTML，确认内容是否加载
 # 执行函数
 fetch_subscription_links(url, keywords_to_remove, keywords_to_filter_lines)
